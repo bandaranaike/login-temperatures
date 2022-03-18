@@ -20,7 +20,7 @@ class TempConverter
      */
     public function kelvinToCelsius(): float
     {
-        return $this->kelvin - 273.15;
+        return round($this->kelvin - 273.15, 2);
     }
 
     /**
@@ -28,6 +28,6 @@ class TempConverter
      */
     public function kelvinToFahrenheit(): float
     {
-        return ($this->kelvinToCelsius() * (9 / 5)) + 32;
+        return round(($this->kelvinToCelsius() * (9 / 5)) + 32, 2);
     }
 }

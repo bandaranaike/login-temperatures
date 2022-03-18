@@ -3,11 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\LoginTemperature;
-use App\Repositories\Contracts\LoginTemperatureRepositoryInterface;
+use App\Repositories\Contracts\GetCityDataInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
-class OpenWeatherMapRepository implements LoginTemperatureRepositoryInterface
+class OpenWeatherMapRepository implements GetCityDataInterface
 {
 
     /**

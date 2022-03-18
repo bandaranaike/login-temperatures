@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Helpers\TempConverter;
 use App\Models\LoginTemperature;
-use App\Repositories\Contracts\LoginTemperatureRepositoryInterface;
+use App\Repositories\Contracts\GetCityDataInterface;
 use Illuminate\Auth\Events\Login;
 
 
@@ -14,10 +14,11 @@ class SaveLoginTemperature
 
     /**
      * Create the event listener.
+     * Need to loosely coupled the city data provider since it can be changed.
      *
      * @return void
      */
-    public function __construct(LoginTemperatureRepositoryInterface $repository)
+    public function __construct(GetCityDataInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -46,6 +47,7 @@ class SaveLoginTemperature
     }
 
     /**
+     * Getting user cities
      * @param $user
      * @return mixed
      */
@@ -55,6 +57,7 @@ class SaveLoginTemperature
     }
 
     /**
+     * Preparing the insertable data in to the table
      * @param $cities
      * @return object
      */

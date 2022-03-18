@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginTemperatureController;
 use App\Models\City;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])
+    ->get('/dashboard', [LoginTemperatureController::class, 'index'])
+    ->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])
+    ->get("get-updated-temperature-list", [LoginTemperatureController::class, "getUpdatedTemperatureList"])
+    ->name('temp-list');
 
 Route::get("cities-list", function () {
     return City::all();

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LoginTemperature;
-use App\Http\Requests\StoreLoginTemperatureRequest;
-use App\Http\Requests\UpdateLoginTemperatureRequest;
 use App\Repositories\Contracts\LoginTemperatureRepositoryInterface;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class LoginTemperatureController extends Controller
 {
@@ -21,78 +21,23 @@ class LoginTemperatureController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
+        $initLoginTemperatures = $this->repository->getSavedLoginTempDataForLoggedUser();
+        $userCities = $this->repository->getUserCities();
 
+        return Inertia::render('Dashboard', compact("initLoginTemperatures", "userCities"));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Handling the external request with an order
+     * @param Request $request
+     * @return mixed
      */
-    public function create()
+    public function getUpdatedTemperatureList(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \App\Http\Requests\StoreLoginTemperatureRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreLoginTemperatureRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\LoginTemperature $loginTemperature
-     * @return \Illuminate\Http\Response
-     */
-    public function show(LoginTemperature $loginTemperature)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\LoginTemperature $loginTemperature
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(LoginTemperature $loginTemperature)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \App\Http\Requests\UpdateLoginTemperatureRequest $request
-     * @param \App\Models\LoginTemperature $loginTemperature
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateLoginTemperatureRequest $request, LoginTemperature $loginTemperature)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\LoginTemperature $loginTemperature
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(LoginTemperature $loginTemperature)
-    {
-        //
+        return $this->repository->getSavedLoginTempDataForLoggedUser($request->get("order-by"));
     }
 }
