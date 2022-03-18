@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method whereUserId(int|string|null $id)
- */
-class LoginTemperature extends Model
+class UserCity extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name'];
+
+    public $timestamps = false;
 }

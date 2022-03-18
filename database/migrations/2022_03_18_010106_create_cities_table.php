@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLoginTemperaturesTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateLoginTemperaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('login_temperatures', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("user_id");
-            $table->integer('city_id');
-            $table->float("celsius");
-            $table->float("fahrenheit");
-            $table->timestamps();
+            $table->string("name");
+            $table->float('lon');
+            $table->float('lat');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateLoginTemperaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('login_temperatures');
+        Schema::dropIfExists('cities');
     }
 }

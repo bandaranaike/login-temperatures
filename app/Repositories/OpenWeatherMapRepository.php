@@ -2,24 +2,35 @@
 
 namespace App\Repositories;
 
+use App\Models\LoginTemperature;
 use App\Repositories\Contracts\LoginTemperatureRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class OpenWeatherMapRepository implements LoginTemperatureRepositoryInterface
 {
 
     /**
+     * @var LoginTemperature
+     */
+    private $model;
+
+    public function __construct(LoginTemperature $model)
+    {
+        $this->model = $model;
+    }
+
+    /**
      * @param string $city_name
      * @return object
      */
-    public function getCityDataByCoordinates(string $city_name): object
+    public function getCityData(float $lat, float $lon): object
     {
         $logintemperature = config("logintemperature");
-        $city = $logintemperature["cities"][$city_name];
 
         $response = Http::get(config("logintemperature.api_url"), [
-            "lat" => $city["lat"],
-            "lon" => $city["lon"],
+            "lat" => $lat,
+            "lon" => $lon,
             "appid" => $logintemperature["api_key"],
             "exclude" => "hourly,daily,minutely"
         ]);
@@ -33,19 +44,27 @@ class OpenWeatherMapRepository implements LoginTemperatureRepositoryInterface
      */
     public function getSavedLoginTempDataForLoggedUser()
     {
-        // TODO: Implement getSavedLoginTempDataForLoggedUser() method.
+        return $this->model->whereUserId(Auth::id())->orderByDesc('created_at')->get();
     }
 
     /**
-     * @param int $user_id
      * @param string $city
      * @param float $celsius
      * @param float $fahrenheit
      * @return object
      */
-    public function saveLoginTempData(int $user_id, string $city, float $celsius, float $fahrenheit): object
+    public function saveLoginTempData(string $city, float $celsius, float $fahrenheit): object
     {
-        // TODO: Implement saveLoginTempData() method.
+        $new_model = new $this->model;
+
+        $new_model->city = $city;
+        $new_model->celsius = $celsius;
+        $new_model->fahrenheit = $fahrenheit;
+        $new_model->user_id = Auth::id();
+
+        $new_model->save();
+
+        return $new_model;
     }
 }
 

@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class LoginTemperatureSeeder extends Seeder
+class CitySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +14,6 @@ class LoginTemperatureSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table("cities")->insert(config("logintemperature.cities"));
     }
 }
