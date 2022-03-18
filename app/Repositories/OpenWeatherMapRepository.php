@@ -21,7 +21,8 @@ class OpenWeatherMapRepository implements LoginTemperatureRepositoryInterface
     }
 
     /**
-     * @param string $city_name
+     * @param float $lat
+     * @param float $lon
      * @return object
      */
     public function getCityData(float $lat, float $lon): object

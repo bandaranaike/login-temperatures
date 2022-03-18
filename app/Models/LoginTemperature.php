@@ -11,4 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class LoginTemperature extends Model
 {
     use HasFactory;
+
+    protected $fillable = ["celsius", "fahrenheit", "city_id"];
 }
